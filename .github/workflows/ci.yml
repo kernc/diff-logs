@@ -1,0 +1,20 @@
+name: CI
+on:
+  push:
+    branches: [master]
+    tags: ['v*']
+  pull_request: { branches: [master] }
+  schedule: [ cron: '5 1 5 * *' ]
+
+jobs:
+  test:
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: shellcheck diff-logs
+      - run: pip install flake8
+      - run: flake8 *.py
+      - run: echo '2000-01-01T00:00:00' > file.log
+      - run: time ./diff-logs < file.log
+      - run: time ./diff-logs file.log file.log

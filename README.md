@@ -1,0 +1,44 @@
+`diff-logs`
+===========
+A command-line utility for diff'ing log files.
+
+Quickly find diffing lines in all kinds of log files.
+
+The script works by replacing common stochastic string [patterns],
+such as datetime timestamps, download speeds, temporary files,
+HTTP header values, UUIDs, hash digests etc., with known fixed
+values that a tool such as `diff` can then easily skip.
+
+[patterns]: https://github.com/kernc/diff-logs/blob/master/diff-logs.py
+
+Installation
+------------
+First check if your distro provides an installable "diff-logs" package.
+If not:
+1. Download or clone repo.
+2. Create a symlink in your bin-dir pointing to `diff-logs` shell script:
+   ```shell
+   mkdir -p ~/.local/bin
+   export PATH="~/.local/bin:$PATH"    # Also put in .bashrc or similar
+   # Link script into your bin
+   ln -s ~/path/to/diff-logs/diff-logs ~/.local/bin/diff-logs
+   ```
+
+Usage
+-----
+Diff two log files:
+```shell
+diff-logs FILE1 FILE2    # Invokes `diff`
+# or
+export DIFFTOOL=meld
+diff-logs FILE1 FILE2    # Invokes `meld`
+```
+Diff-friendly-format a single log file:
+```shell
+diff-logs < FILE1 > FILE1.clean
+```
+
+-----
+Finally, everyone can diff their logs with ease! 🥳
+
+Improvements welcome!

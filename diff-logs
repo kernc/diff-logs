@@ -1,0 +1,22 @@
+#!/bin/bash
+#
+# This is the diff-logs utility for diff'ing log files.
+#
+# See usage instructions below.
+#
+set -eu
+
+lib="$(dirname "$(which "$0")")"
+pyscript="$lib/diff-logs.py"
+difftool="${DIFFTOOL:-diff}"
+
+if [ $# -eq 0 ]; then
+    $pyscript <&0;
+elif [ $# -eq 2 ]; then
+    case $difftool in diff) args='--color=auto' ;; *) args= ;; esac
+    $difftool $args <($pyscript < "$1") <($pyscript < "$2");
+else
+    echo "Usage: $0 < FILE1.log           # Print log file diff-frienly" >&2
+    echo "       $0 FILE1.log FILE2.log   # Invoke \$DIFFTOOL (e.g. diff)" >&2
+    exit 1
+fi
