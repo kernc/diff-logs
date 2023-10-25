@@ -14,6 +14,7 @@ if [ $# -eq 0 ]; then
     $pyscript <&0;
 elif [ $# -eq 2 ]; then
     case $difftool in diff) args='--color=auto' ;; *) args= ;; esac
+    # shellcheck disable=SC2086
     $difftool $args <($pyscript < "$1") <($pyscript < "$2");
 else
     echo "Usage: $0 < FILE1.log           # Print log file diff-frienly" >&2
