@@ -1,5 +1,9 @@
 `diff-logs`
 ===========
+[![Build Status](https://img.shields.io/github/actions/workflow/status/kernc/diff-logs/ci.yml?branch=master&style=for-the-badge)](https://github.com/kernc/diff-logs/actions)
+[![](https://img.shields.io/github/issues/kernc/diff-logs?style=for-the-badge)](#)
+[![GitHub Sponsors](https://img.shields.io/github/sponsors/kernc?color=pink&style=for-the-badge)](https://github.com/sponsors/kernc)
+
 A command-line utility for diff'ing log files.
 
 Quickly find diffing lines in all kinds of log files.
