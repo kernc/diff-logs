@@ -17,10 +17,10 @@ PATTERNS = {
     r'\b(in|since) \d+\.\d+': 'in 1.1',
     # File/download sizes
     r'(?i)\d+(?:\.\d+)?(?:/\d)? ?(?P<suffix>kb|kib|mb|mib|gb|gib)': r'1 \g<suffix>',
-    # Common files
-    r'/tmp/[^/:"\']{6,}(?:/[^/:"\']+)*/?': '/tmp/106d1ff',
     # HTTP/Headers
     r'W/(?P<quote>\\?")[^"]*(?P=quote)': 'W/"ETag"',  # ETag header
+    # Common files
+    r'/tmp/[^/:"\']{6,}(?:/[^/:"\']+)*/?': '/tmp/106d1ff',
     # Common tools
     r'(?P<step_no>(?:\s|\A)#\d+) \d+\.\d+': r'\g<step_no> 1',  # Docker build steps
 
