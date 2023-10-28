@@ -17,8 +17,10 @@ PATTERNS = {
     r'\b(in|since) \d+\.\d+': 'in 1.1',
     # File/download sizes
     r'(?i)\d+(?:\.\d+)?(?:/\d)? ?(?P<suffix>kb|kib|mb|mib|gb|gib)': r'1 \g<suffix>',
-    # HTTP/Headers
-    r'W/(?P<quote>\\?")[^"]*(?P=quote)': 'W/"ETag"',  # ETag header
+    # TCP / HTTP
+    r'\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b': '11.1.1.1',  # IPv4
+    r':\d{5,5}\b': ':11111',                                # Remote port
+    r'\bW/(?P<quote>\\?")[^"]*(?P=quote)': 'W/"ETag"',      # ETag header
     # Common files
     r'/tmp/[^/:"\']{6,}(?:/[^/:"\']+)*/?': '/tmp/106d1ff',
     # Common tools
@@ -27,7 +29,6 @@ PATTERNS = {
     r'(?:[\da-fA-F]{4,}-){4,}[\da-fA-F]{4,}': '106d1ff-106d-1ff1-06d1-ff106d1ff',  # UUID
     r'[\da-fA-F]{7,}': '106D1FF',               # Hash digest
     r'[a-zA-Z0-9]{18,}': 'AAAAAAAAAAAAAAAAAA',  # Long payload
-    r':\d{5,5}\b': ':11111',                    # Remote port
     r'━━━━+': '━━━━',                           # Progress bar
 }
 
