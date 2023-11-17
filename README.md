@@ -43,21 +43,22 @@ Usage: diff-logs < FILE1.log           # Print log file diff-frienly
 ```
 
 
-Eaxmples
+Examples
 --------
-Diff two log files:
+### Diff two log files
 ```shell
 diff-logs FILE1 FILE2    # Invokes `diff`
 # or
 export DIFFTOOL=meld
 diff-logs FILE1 FILE2    # Invokes `meld`
 ```
-Diff-friendly-format a single log file:
+
+### Diff-friendly-format a single log file
 ```shell
 diff-logs < FILE1 > FILE1.clean
 ```
 
 -----
-Finally, everyone can diff their logs with ease! 🥳
+Finally, we can diff our logs with ease! 🥳
 
 Improvements welcome!
