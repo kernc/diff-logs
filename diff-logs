@@ -7,7 +7,7 @@
 set -eu
 set -o pipefail
 
-lib="$(command -v "$0" | dirname -)"
+lib="$(dirname "$(command -v "$0" || true)")"
 pyscript="$lib/diff-logs.py"
 difftool="${DIFFTOOL:-diff}"
 
