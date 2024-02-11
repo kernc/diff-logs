@@ -18,7 +18,7 @@ elif [ $# -eq 2 ]; then
     # shellcheck disable=SC2086,SC2248,SC2312
     $difftool $args <("$pyscript" < "$1") <("$pyscript" < "$2");
 else
-    echo "Usage: $0 < FILE1.log           # Print log file diff-frienly" >&2
+    echo "Usage: $0 < FILE.log            # Print log file diff-friendly" >&2
     echo "       $0 FILE1.log FILE2.log   # Invoke \$DIFFTOOL (e.g. diff)" >&2
     exit 1
 fi
