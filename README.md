@@ -2,7 +2,6 @@
 ===========
 [![Build Status](https://img.shields.io/github/actions/workflow/status/kernc/diff-logs/ci.yml?branch=master&style=for-the-badge)](https://github.com/kernc/diff-logs/actions)
 [![](https://img.shields.io/github/issues/kernc/diff-logs?style=for-the-badge)](#)
-[![GitHub Sponsors](https://img.shields.io/github/sponsors/kernc?color=pink&style=for-the-badge)](https://github.com/sponsors/kernc)
 
 A command-line utility for diff'ing log files.
 
@@ -23,7 +22,8 @@ Installation
 First, check if your OS distro already provides an installable `diff-logs` package.
 
 Otherwise:
-1. Star, download or clone repo.
+1. Star, [download](https://github.com/kernc/diff-logs/archive/refs/heads/master.zip)
+   or clone repo.
 2. (Optional) Create a symlink in your bin-dir pointing to `diff-logs` shell script:
    ```shell
    mkdir -p ~/.local/bin
@@ -38,7 +38,7 @@ Usage
 ```shell
 $ diff-logs --help
 
-Usage: diff-logs < FILE1.log           # Print log file diff-frienly
+Usage: diff-logs < FILE1.log           # Print log file diff-friendly
        diff-logs FILE1.log FILE2.log   # Invoke $DIFFTOOL (e.g. diff)
 ```
 
