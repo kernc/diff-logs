@@ -21,6 +21,7 @@ PATTERNS = {
     # TCP / HTTP
     r'\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b': '11.1.1.1',  # IPv4
     r':\d{5,5}\b': ':11111',                                # Remote port
+    r'\bport \d{5,5}\b': 'port 11111',                      # Remote port
     r'\bW/(?P<quote>\\?")[^"]*(?P=quote)': 'W/"ETag"',      # ETag header
     # Common files
     r'/tmp/[^/:"\']{6,}(?:/[^/:"\']+)*/?': '/tmp/106d1ff',
