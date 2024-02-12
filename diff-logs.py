@@ -31,7 +31,10 @@ PATTERNS = {
     r'(?:[\da-fA-F]{4,}-){4,}[\da-fA-F]{4,}': '106d1ff-106d-1ff1-06d1-ff106d1ff',  # UUID
     r'[a-zA-Z0-9]{18,}': 'AAAAAAAAAAAAAAAAAA',  # Long payload
     r'[a-fA-F0-9]{7,}': '106D1FF',              # Hash digest
-    r'━━━━+': '━━━━',                           # Progress bar
+    # Progress bar, e.g. in pip, tqdm
+    r'^(?P<indent>[ \t]*)(?P<pct>\d+%\|)?'
+    r'(?P<symbol>[━=█])(?P=symbol){4,}(?(pct)\||)'
+    r'([ \d.,:/\][<]|(MB|kB|B|it)(:?/s)?|eta)*': r'\g<indent>━━━━━',
 }
 
 assert all(re.match(fr'\A(?:{p})\Z', v)
