@@ -29,8 +29,8 @@ PATTERNS = {
     r'(?P<step_no>(?:\s|\A)#\d+) \d+\.\d+': r'\g<step_no> 1',  # Docker build steps
 
     r'(?:[\da-fA-F]{4,}-){4,}[\da-fA-F]{4,}': '106d1ff-106d-1ff1-06d1-ff106d1ff',  # UUID
-    r'[\da-fA-F]{7,}': '106D1FF',               # Hash digest
     r'[a-zA-Z0-9]{18,}': 'AAAAAAAAAAAAAAAAAA',  # Long payload
+    r'[a-fA-F0-9]{7,}': '106D1FF',              # Hash digest
     r'━━━━+': '━━━━',                           # Progress bar
 }
 
