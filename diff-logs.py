@@ -24,13 +24,13 @@ PATTERNS = {
     r'\bport \d{5,5}\b': 'port 11111',                      # Remote port
     r'\bW/(?P<quote>\\?")[^"]*(?P=quote)': 'W/"ETag"',      # ETag header
     # Common files
-    r'/tmp/[^/:"\']{6,}(?:/[^/:"\']+)*/?': '/tmp/106d1ff',
+    r'/tmp/[^/:"\']{6,}(?:/[^/:"\']+)*/?': '/tmp/d1ff1065',
     # Common tools
     r'(?P<step_no>(?:\s|\A)#\d+) \d+\.\d+': r'\g<step_no> 1',  # Docker build steps
 
-    r'(?:[\da-fA-F]{4,}-){4,}[\da-fA-F]{4,}': '106d1ff-106d-1ff1-06d1-ff106d1ff',  # UUID
+    r'(?:[\da-fA-F]{4,}-){4,}[\da-fA-F]{4,}': 'd1ff1065-d1ff-1065-1007-d1ff1065',  # UUID
     r'[a-zA-Z0-9]{18,}': 'AAAAAAAAAAAAAAAAAA',  # Long payload
-    r'[a-fA-F0-9]{7,}': '106D1FF',              # Hash digest
+    r'[a-fA-F0-9]{7,}': 'd1ff1065',             # Hash digest
     # Progress bar, e.g. in pip, tqdm
     r'^(?P<indent>[ \t]*)(?P<pct>\d+%\|)?'
     r'(?P<symbol>[━=█])(?P=symbol){4,}(?(pct)\||)'
