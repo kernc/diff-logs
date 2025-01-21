@@ -1,6 +1,10 @@
 `diff-logs`
 ===========
 [![Build Status](https://img.shields.io/github/actions/workflow/status/kernc/diff-logs/ci.yml?branch=master&style=for-the-badge)](https://github.com/kernc/diff-logs/actions)
+[![Language: shell](https://img.shields.io/badge/lang-Shell-skyblue?style=for-the-badge)](https://github.com/kernc/diff-logs)
+[![Language: Python](https://img.shields.io/badge/lang-Python-skyblue?style=for-the-badge)](https://github.com/kernc/diff-logs)
+[![Source lines of code](https://img.shields.io/endpoint?url=https://ghloc.vercel.app/api/kernc/diff-logs/badge?filter=diff-logs.py,diff-logs$&style=for-the-badge&color=skyblue&label=SLOC)](https://github.com/kernc/diff-logs)
+[![Script size](https://img.shields.io/github/languages/code-size/kernc/diff-logs?style=for-the-badge&color=skyblue)](https://github.com/kernc/diff-logs)
 [![](https://img.shields.io/github/issues/kernc/diff-logs?style=for-the-badge)](#)
 
 A command-line utility for diff'ing log files.
