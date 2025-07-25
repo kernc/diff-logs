@@ -9,13 +9,13 @@
 
 A command-line utility for diff'ing log files.
 
-Quickly find diffing lines in all kinds of logs,
-namely build/CI logs, server/container logs or any such.
-Figure out _why exactly_ the shit is failing quickly.
+Quickly find **difference lines** in **all kinds of logs**,
+namely build/CI logs, server/container logs, or any similar such.
+Figure out quickly **what changed** and _why exactly_ the shit is failing.
 
-The script works by replacing common stochastic string [patterns],
+The script works by simply replacing common stochastic string [patterns],
 such as datetime timestamps, download speeds, temporary files,
-HTTP header values, UUIDs, hash digests etc., with known fixed
+HTTP header values, UUIDs, hash digests etc. with known fixed
 values that a tool such as `diff` can then easily skip.
 
 [patterns]: https://github.com/kernc/diff-logs/blob/master/diff-logs.py
