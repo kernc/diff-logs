@@ -18,3 +18,11 @@ jobs:
       - run: echo '2000-01-01T00:00:00' > file.log
       - run: time ./diff-logs < file.log
       - run: time ./diff-logs file.log file.log
+
+  workflow-keepalive:
+    if: github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+    steps:
+      - uses: liskin/gh-workflow-keepalive@f72ff1a1336129f29bf0166c0fd0ca6cf1bcb38c  # v1.2.1
