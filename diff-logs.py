@@ -28,6 +28,9 @@ PATTERNS = {
     r'/tmp/[^/:"\']{6,}(?:/[^/:"\']+)*/?': '/tmp/d1ff1065',
     # Common tools
     r'(?P<step_no>(?:\s|\A)#\d+) \d+\.\d+': r'\g<step_no> 1',  # Docker build steps
+    # strace process PIDs
+    r'(?P<prefix>(?:\b|_?)pid[ =])\d{4,}\b': r'\g<prefix>11111',
+    r'(?P<prefix>strace: Process )\d+': r'\g<prefix>111111',
 
     r'(?:[\da-fA-F]{4,}-){4,}[\da-fA-F]{4,}': 'd1ff1065-d1ff-1065-1007-d1ff1065',  # UUID
     r'[a-zA-Z0-9]{18,}': 'AAAAAAAAAAAAAAAAAA',  # Long payload
