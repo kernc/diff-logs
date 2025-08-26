@@ -54,4 +54,7 @@ if len(sys.argv) > 1:
 for line in sys.stdin:
     for pattern, replacement in PATTERNS.items():
         line = re.sub(pattern, replacement, line)
-    print(line, end='')
+    try:
+        print(line, end='')
+    except BrokenPipeError:
+        break
