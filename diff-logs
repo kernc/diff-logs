@@ -66,17 +66,15 @@ sub normalize {
 # Main
 my $argc = @ARGV;
 if ($argc == 0) {
-    binmode(STDIN, ":utf8");
-    binmode(STDOUT, ":utf8");
+    binmode(STDIN, ":utf8"); binmode(STDOUT, ":utf8");  ## no critic
     normalize(\*STDIN, \*STDOUT);
 } elsif ($argc == 2) {
     my ($file1, $file2) = @ARGV;
     my $temp1 = File::Temp->new(UNLINK => 1);
     my $temp2 = File::Temp->new(UNLINK => 1);
-    binmode($temp1, ':utf8');
-    binmode($temp2, ':utf8');
-    open my $fh1_in, '<:utf8', $file1 or die "Error: Cannot read '$file1': $!";
-    open my $fh2_in, '<:utf8', $file2 or die "Error: Cannot read '$file2': $!";
+    binmode($temp1, ':utf8'); binmode($temp2, ':utf8');  ## no critic
+    open my $fh1_in, '<:utf8', $file1 or die "Error: Cannot read '$file1': $!";  ## no critic
+    open my $fh2_in, '<:utf8', $file2 or die "Error: Cannot read '$file2': $!";  ## no critic
     normalize($fh1_in, $temp1);
     normalize($fh2_in, $temp2);
     close $fh1_in; close $fh2_in;
