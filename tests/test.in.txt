@@ -1,0 +1,68 @@
+# Datetime ISO
+2020-03-13 16:20:00
+2020-03-13 16:20:00.000
+2020-03-13 16:20:00.000000Z
+2020-03-13 16:20:00,0
+
+# Datetime RFC
+Mon, 13 Mar 2020 16:20:00 CET
+
+# Datetime
+13-03-2020 16:20:00.0
+
+# Datetime (ls -l)
+Mar 13 16:20
+
+# Duration
+12.3s
+12.3sec
+
+# Duration
+in 12.3
+since 12.3
+
+# File/download size
+100MiB
+100 GB
+1000 K
+
+# IPv4
+192.168.1.1
+
+# Remote port
+:12345
+
+# Remote port
+port 12345
+
+# ETag header
+ETag: W/"foobar"
+
+# Temporary files
+/tmp/foobar-x5SU7aN
+
+# Docker build steps
+#13 3.1
+ #13 3.1
+
+# Strace process PIDs
+pid 12345
+pid=12345
+
+# Strace process PIDs
+strace: Process 12345
+
+# UUID
+dddddddd-dddd-dddd-dddd-dddddddd
+
+# Payload
+OS8xMSB3YXMgYW4gaW5zaWRlIGpvYgo
+
+# Hash digest
+af09af09
+AF09AF09
+
+# Progress bar
+ ━━━━━━━━━━━━━━ 73.5/73.5 kB 5.9 MB/s eta 0:00:00
+ 100%|===========| eta
+ 76%|████████████████████████        | 756/1000 [00:33<00:10, 20.0it/s]

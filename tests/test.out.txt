@@ -1,0 +1,68 @@
+# Datetime ISO
+2111-11-11 11:11:11
+2111-11-11 11:11:11
+2111-11-11 11:11:11
+2111-11-11 11:11:11
+
+# Datetime RFC
+Thu, 11 Nov 2111 11:11:11 GMT
+
+# Datetime
+11-11-2111 11:11:11.111111
+
+# Datetime (ls -l)
+Nov 11 11:11
+
+# Duration
+1.1s
+1.1s
+
+# Duration
+in 1.1
+in 1.1
+
+# File/download size
+1 MiB
+1 GB
+1 K
+
+# IPv4
+11.1.1.1
+
+# Remote port
+:11111
+
+# Remote port
+port 11111
+
+# ETag header
+ETag: W/"ETag"
+
+# Temporary files
+/tmp/d1ff1065
+
+# Docker build steps
+#13 1
+ #13 1
+
+# Strace process PIDs
+pid 11111
+pid=11111
+
+# Strace process PIDs
+strace: Process 111111
+
+# UUID
+d1ff1065-d1ff-1065-1007-d1ff1065
+
+# Payload
+d1ff1065
+
+# Hash digest
+d1ff1065
+d1ff1065
+
+# Progress bar
+ ━━━━━
+ ━━━━━
+ ━━━━━
