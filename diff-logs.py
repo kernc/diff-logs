@@ -25,7 +25,7 @@ PATTERNS = {
     r'\bport \d{5,5}\b': 'port 11111',                      # Remote port
     r'\bW/(?P<quote>\\?")[^"]*(?P=quote)': 'W/"ETag"',      # ETag header
     # Common files
-    r'/tmp/[^/:"\']{6,}(?:/[^/:"\']+)*/?': '/tmp/d1ff1065',
+    r'/tmp/[^/:"\'\s]{6,}(?:/[^/:"\'\s]+)*/?': '/tmp/d1ff1065',
     # Common tools
     r'(?P<step_no>(?:\s|\A)#\d+) \d+\.\d+': r'\g<step_no> 1',  # Docker build steps
     # strace process PIDs
@@ -37,8 +37,8 @@ PATTERNS = {
     r'[a-fA-F0-9]{7,}': 'd1ff1065',             # Hash digest
     # Progress bar, e.g. in pip, tqdm
     r'^(?P<indent>[ \t]*)(?P<pct>\d+%\|)?'
-    r'(?P<symbol>[━=█])(?P=symbol){4,}(?(pct)\||)'
-    r'([ \d.,:/\][<]|(MB|kB|B|it)(:?/s)?|eta)*': r'\g<indent>━━━━━',
+    r'(?P<symbol>[━=█])(?P=symbol){4,} *(?(pct)\||)'
+    r'(?:[ \d.,:/\][<]|(?:MB|kB|B|it)(?:/s)?|eta)*': r'\g<indent>━━━━━',
 }
 
 assert all(re.match(fr'\A(?:{p})\Z', v)
