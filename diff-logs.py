@@ -18,7 +18,7 @@ PATTERNS = {
     r'\b\d+(?:\.\d+)?s(?:ec)?\b': '1.1s',
     r'\b(in|since) \d+\.\d+': 'in 1.1',
     # File/download sizes
-    r'(?i)\d+(?:\.\d+)?(?:/\d)? ?(?P<suffix>kb|kib|mb|mib|gb|gib)': r'1 \g<suffix>',
+    r'(?i)\d+(?:\.\d+)?(?:/\d)? ?(?P<suffix>[kmg](?:i?b)?)\b': r'1 \g<suffix>',
     # TCP / HTTP
     r'\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b': '11.1.1.1',  # IPv4
     r':\d{5,5}\b': ':11111',                                # Remote port
