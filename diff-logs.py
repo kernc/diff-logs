@@ -36,9 +36,7 @@ PATTERNS = {
     r'[a-zA-Z0-9]{18,}': 'AAAAAAAAAAAAAAAAAA',  # Long payload
     r'[a-fA-F0-9]{7,}': 'd1ff1065',             # Hash digest
     # Progress bar, e.g. in pip, tqdm
-    r'^(?P<indent>[ \t]*)(?P<pct>\d+%\|)?'
-    r'(?P<symbol>[━=█])(?P=symbol){4,} *(?(pct)\||)'
-    r'(?:[ \d.,:/\][<]|(?:MB|kB|B|it)(?:/s)?|eta)*': r'\g<indent>━━━━━',
+    r'(?P<indent>[ \t]*)(?: *(?:\[ *)?\d+%(?:])? *)?[[|]?[\u2500-\u259f=.-]{5,} *[\]|]?(?: *(?:\[ *)?\d+%(?:])? *)?[(]?[\d.KMGB ]+/.*': r'\g<indent>.......',  # noqa: E501
 }
 
 assert all(re.match(fr'\A(?:{p})\Z', v)
