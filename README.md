@@ -1,24 +1,23 @@
 `diff-logs`
 ===========
 [![Build Status](https://img.shields.io/github/actions/workflow/status/kernc/diff-logs/ci.yml?branch=master&style=for-the-badge)](https://github.com/kernc/diff-logs/actions)
-[![Language: shell](https://img.shields.io/badge/lang-Shell-peachpuff?style=for-the-badge)](https://github.com/kernc/diff-logs)
-[![Language: Python](https://img.shields.io/badge/lang-Python-skyblue?style=for-the-badge)](https://github.com/kernc/diff-logs)
-[![Source lines of code](https://img.shields.io/endpoint?url=https://ghloc.vercel.app/api/kernc/diff-logs/badge?filter=diff-logs.py,diff-logs$&style=for-the-badge&color=greenyellow&label=SLOC)](https://github.com/kernc/diff-logs)
+[![Language: Perl](https://img.shields.io/badge/lang-Perl-056?style=for-the-badge)](https://github.com/kernc/diff-logs)
+[![Source lines of code](https://img.shields.io/endpoint?url=https://ghloc.vercel.app/api/kernc/diff-logs/badge?filter=diff-logs$&style=for-the-badge&color=greenyellow&label=SLOC)](https://github.com/kernc/diff-logs)
 [![Script size](https://img.shields.io/github/languages/code-size/kernc/diff-logs?style=for-the-badge&color=greenyellow)](https://github.com/kernc/diff-logs)
-[![](https://img.shields.io/github/issues/kernc/diff-logs?style=for-the-badge)](https://github.com/kernc/diff-logs/issues)
+[![Bug tracker](https://img.shields.io/github/issues/kernc/diff-logs?style=for-the-badge)](https://github.com/kernc/diff-logs/issues)
 
 A command-line utility for diff'ing log files.
 
 Quickly find **difference lines** in **all kinds of logs**,
 namely build/CI logs, server/container logs, or any similar such.
-Figure out quickly **what changed** and _why exactly_ the shit is failing.
+Figure out quickly **what changed** and _why exactly_ your shit is failing.
 
 The script works by simply replacing common stochastic string [patterns],
-such as datetime timestamps, download speeds, temporary files,
-HTTP header values, UUIDs, hash digests etc. with known fixed
+such as datetime timestamps, download speeds, temporary filenames,
+HTTP header values, UUIDs, hash digests etc. etc. with known fixed
 values that a tool such as `diff` can then easily skip.
 
-[patterns]: https://github.com/kernc/diff-logs/blob/master/diff-logs.py
+[patterns]: https://github.com/kernc/diff-logs/blob/master/diff-logs
 
 
 Installation
@@ -27,13 +26,12 @@ First, check if your OS distro already provides an installable `diff-logs` packa
 
 Otherwise:
 1. Star, [download](https://github.com/kernc/diff-logs/archive/refs/heads/master.zip)
-   or clone repo.
-2. (Optional) Create a symlink in your bin-dir pointing to `diff-logs` shell script:
+   or clone repo. 🫶
+2. Put `diff-logs` script into your bin-dir or elsewhere on `$PATH`:
    ```shell
-   mkdir -p ~/.local/bin
-   export PATH="~/.local/bin:$PATH"    # Also put in .bashrc or similar
-   # Link script into your bin
-   ln -s ~/path/to/diff-logs/diff-logs ~/.local/bin/diff-logs
+   curl -vL https://github.com/kernc/diff-logs/raw/refs/heads/master/diff-logs
+       sudo tee /usr/local/bin/diff-logs
+   sudo chmod +x /usr/local/bin/diff-logs
    ```
 
 
@@ -63,7 +61,11 @@ diff-logs FILE1 FILE2    # Invokes `meld`
 diff-logs < FILE1 > FILE1.clean
 ```
 
+Notes
+-----
+This once was Python, but Perl is even more ubiquituous.
+
 -----
 Finally, we can diff our logs with ease! 🥳
 
-Improvements welcome!
+Improvements and additions welcome!

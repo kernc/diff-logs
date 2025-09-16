@@ -1,24 +1,89 @@
-#!/bin/bash
-#
-# This is the diff-logs utility for diff'ing log files.
-#
-# See usage instructions below.
-#
-set -eu
-set -o pipefail
+#!/usr/bin/env perl
+use strict;
+use warnings;
+use utf8;
+use File::Temp ();
 
-lib="$(dirname "$(command -v "$0" || true)")"
-pyscript="$lib/diff-logs.py"
-difftool="${DIFFTOOL:-diff}"
+my @PATTERNS = (
+    # Date/time
+    [ qr/\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2}:\d{2}(?:[.,]\d+)?Z?/, '2111-11-11 11:11:11' ],
+    [ qr/\w{3,}, \d{1,2} \w{3,} \d{4,4} \d{1,2}(?::\d{1,2}){2} [A-Z]{3}/, 'Thu, 11 Nov 2111 11:11:11 GMT' ],
+    [ qr/\d{2}-\d{2}-\d{4} \d{2}(?::\d{2}){2}\.\d+/, '11-11-2111 11:11:11.111111' ],
+    [ qr/[A-Z][a-z]{2} [ \d]\d \d{2}:\d{2}/, 'Nov 11 11:11' ],  # `ls -l` format
+    # Other timestamp
+    [ qr/\b\d+(?:\.\d+)?s(?:ec)?\b/, '1.1s' ],
+    [ qr/\b(in|since) \d+\.\d+/, 'in 1.1' ],
+    # File/download sizes
+    [ qr/\d+(?:\.\d+)?(?:\/\d)? ?(?P<suffix>[kmg](?:i?b)?)\b/i, q["1 " . $+{suffix}] ],
+    # TCP / HTTP
+    [ qr/\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b/, '11.1.1.1' ],  # IPv4
+    [ qr/:\d{5,5}\b/, ':11111' ],                                # Remote port
+    [ qr/\bport \d{5,5}\b/, 'port 11111' ],                      # Remote port
+    [ qr{\bW/(?<quote>\\?")[^"]*\k<quote>}, 'W/"ETag"' ],        # ETag header
+    # Common files
+    [ qr{/tmp/[^\s/:"']{6,}(?:/[^\s/:"']+)*/?}, '/tmp/d1ff1065' ],
+    # Common tools
+    [ qr/(?<step_no>(?:\s|\A)#\d+) \d+\.\d+/, q[$+{step_no} . " 1"] ],  # Docker build steps
+    # strace process PIDs
+    [ qr/(?<prefix>(?:\b|_?)pid[ =])\d{4,}\b/, q[$+{prefix} . "11111"] ],
+    [ qr/(?<prefix>strace: Process )\d+/, q[$+{prefix} . "111111"] ],
 
-if [ $# -eq 0 ]; then
-    "$pyscript" <&0;
-elif [ $# -eq 2 ]; then
-    case $difftool in diff) args='--color=auto' ;; *) args= ;; esac
-    # shellcheck disable=SC2086,SC2248,SC2312
-    $difftool $args <("$pyscript" < "$1") <("$pyscript" < "$2");
-else
-    echo "Usage: $0 < FILE.log            # Print log file diff-friendly" >&2
-    echo "       $0 FILE1.log FILE2.log   # Invoke \$DIFFTOOL (e.g. diff)" >&2
-    exit 1
-fi
+    [ qr/(?:[\da-fA-F]{4,}-){4,}[\da-fA-F]{4,}/, 'd1ff1065-d1ff-1065-1007-d1ff1065' ],
+    [ qr/[a-zA-Z0-9]{18,}/, 'AAAAAAAAAAAAAAAAAA' ],  # Long payload
+    [ qr/[a-fA-F0-9]{7,}/, 'd1ff1065' ],             # Hash digest
+    # Progress bar, e.g. in pip, tqdm
+    [ qr{(?<indent>[ \t]*)(?: *(?:\[ *)?\d+%(?:])? *)?[[|]?[\x{2500}-\x{259F}=.\-]{5,} *[\]|]?(?: *(?:\[ *)?\d+%(?:])? *)?[(]?[\d.KMGB ]+/.*}, q[$+{indent} . "......."] ],
+);
+
+# Self-test to ensure idempotence for simple replacements
+for my $pair (@PATTERNS) {
+    my ($pattern, $replacement) = @$pair;
+    if (index($replacement, '$+') == -1) {
+        if ($replacement !~ m/\A(?:$pattern)\z/s) {
+            die "Assertion failed: Pattern-replacement pair '$pattern' => '$replacement' not idempotent!";
+        }
+    }
+}
+
+# Subroutine to read from an input handle, apply all normalizations,
+# and write the result to an output handle
+sub normalize {
+    my ($in_fh, $out_fh) = @_;
+    while (my $line = <$in_fh>) {
+        for my $rule (@PATTERNS) {
+            my ($pattern, $replacement) = @$rule;
+            # Use /ee (evaluate 2x) for replacements with named backreferences
+            if (index($replacement, '$+') != -1) {
+                $line =~ s/$pattern/$replacement/gee;
+            } else {
+                $line =~ s/$pattern/$replacement/g;
+            }
+        }
+        print $out_fh $line;
+    }
+}
+
+# Main
+my $argc = @ARGV;
+if ($argc == 0) {
+    binmode(STDIN, ":utf8");
+    binmode(STDOUT, ":utf8");
+    normalize(\*STDIN, \*STDOUT);
+} elsif ($argc == 2) {
+    my ($file1, $file2) = @ARGV;
+    my $temp1 = File::Temp->new(UNLINK => 1);
+    my $temp2 = File::Temp->new(UNLINK => 1);
+    binmode($temp1, ':utf8');
+    binmode($temp2, ':utf8');
+    open my $fh1_in, '<:utf8', $file1 or die "Error: Cannot read '$file1': $!";
+    open my $fh2_in, '<:utf8', $file2 or die "Error: Cannot read '$file2': $!";
+    normalize($fh1_in, $temp1);
+    normalize($fh2_in, $temp2);
+    close $fh1_in; close $fh2_in;
+    my $difftool = $ENV{DIFFTOOL} || 'diff';
+    exec $difftool, ($difftool eq 'diff' ? '--color=auto' : ()), $temp1->filename, $temp2->filename;
+} else {
+    print STDERR "Usage: $0 < FILE         # Print log file diff-friendly\n";
+    print STDERR "       $0 FILE1 FILE2    # Invoke \$DIFFTOOL (e.g. diff)\n";
+    exit 1;
+}
