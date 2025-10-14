@@ -50,6 +50,23 @@ for my $pair (@PATTERNS) {
 sub normalize {
     my ($in_fh, $out_fh) = @_;
     while (my $line = <$in_fh>) {
+        # sanitize bytes: preserve valid UTF-8 sequences, escape invalid single bytes as \xHH
+        $line =~ s{(                              # capture either:
+            (?:                                   #  valid UTF-8 sequences
+              [\x00-\x7F]                         #  1
+            | [\xC2-\xDF][\x80-\xBF]              #  2
+            | \xE0[\xA0-\xBF][\x80-\xBF]          #  3 (E0)
+            | [\xE1-\xEC\xEE\xEF][\x80-\xBF]{2}   #  3 (others)
+            | \xED[\x80-\x9F][\x80-\xBF]          #  3 (ED)
+            | \xF0[\x90-\xBF][\x80-\xBF]{2}       #  4 (F0)
+            | [\xF1-\xF3][\x80-\xBF]{3}           #  4 (F1-F3)
+            | \xF4[\x80-\x8F][\x80-\xBF]{2}       #  4 (F4)
+            )
+            |
+            (.)                                   #  or a single (invalid) byte
+        )}{ defined $2 ? sprintf('\\x%02X', ord $2) : $1 }gex;
+        utf8::decode($line) or die "Assertion failed: invalid UTF-8 even after sanitization";
+
         for my $rule (@PATTERNS) {
             my ($pattern, $replacement) = @$rule;
             # Use /ee (evaluate 2x) for replacements with named backreferences
@@ -66,15 +83,15 @@ sub normalize {
 # Main
 my $argc = @ARGV;
 if ($argc == 0) {
-    binmode(STDIN, ":utf8"); binmode(STDOUT, ":utf8");  ## no critic
+    binmode(STDIN, ":raw"); binmode(STDOUT, ":utf8");  ## no critic
     normalize(\*STDIN, \*STDOUT);
 } elsif ($argc == 2) {
     my ($file1, $file2) = @ARGV;
     my $temp1 = File::Temp->new(UNLINK => 1);
     my $temp2 = File::Temp->new(UNLINK => 1);
     binmode($temp1, ':utf8'); binmode($temp2, ':utf8');  ## no critic
-    open my $fh1_in, '<:utf8', $file1 or die "Error: Cannot read '$file1': $!";  ## no critic
-    open my $fh2_in, '<:utf8', $file2 or die "Error: Cannot read '$file2': $!";  ## no critic
+    open my $fh1_in, '<:raw', $file1 or die "Error: Cannot read '$file1': $!";  ## no critic
+    open my $fh2_in, '<:raw', $file2 or die "Error: Cannot read '$file2': $!";  ## no critic
     normalize($fh1_in, $temp1);
     normalize($fh2_in, $temp2);
     close $fh1_in; close $fh2_in;
