@@ -9,13 +9,15 @@
 A command-line utility for diff'ing log files.
 
 Quickly find **difference lines** in **all kinds of logs**,
-namely build/CI logs, server/container logs, or any similar such.
+namely build/CI logs, server/container logs,
+`journald` and boot/`dmesg` logs, or any similar such.
 Figure out quickly **what changed** and _why exactly_ your shit is failing.
 
 The script works by simply replacing common stochastic string [patterns],
 such as datetime timestamps, download speeds, temporary filenames,
 HTTP header values, UUIDs, hash digests etc. etc. with known fixed
-values that a tool such as `diff` can then easily skip.
+values that a tool such as `diff` can then easily skip,
+ensuring your focus on critical lines only.
 
 [patterns]: https://github.com/kernc/diff-logs/blob/master/diff-logs
 
@@ -63,7 +65,7 @@ diff-logs < FILE1 > FILE1.clean
 
 Notes
 -----
-This once was Python, but Perl is even more ubiquituous.
+This would be Python, but basic [Perl is far more ubiquituous](https://qa.debian.org/popcon.php?package=perl).
 
 -----
 Finally, we can diff our logs with ease! 🥳
