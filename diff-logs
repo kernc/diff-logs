@@ -9,10 +9,11 @@ my @PATTERNS = (
     [ qr/\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2}:\d{2}(?:[.,]\d+)?Z?/, '2111-11-11 11:11:11' ],
     [ qr/\w{3,}, \d{1,2} \w{3,} \d{4,4} \d{1,2}(?::\d{1,2}){2} [A-Z]{3}/, 'Thu, 11 Nov 2111 11:11:11 GMT' ],
     [ qr/\d{2}-\d{2}-\d{4} \d{2}(?::\d{2}){2}\.\d+/, '11-11-2111 11:11:11.111111' ],
-    [ qr/[A-Z][a-z]{2} [ \d]\d \d{2}:\d{2}/, 'Nov 11 11:11' ],  # `ls -l` format
+    [ qr/[A-Z][a-z]{2} [ \d]\d \d{2}(:\d{2}){1,2}/, 'Nov 11 11:11' ],  # `ls -l` / journalctl format
     # Other timestamp
     [ qr/\b\d+(?:\.\d+)?s(?:ec)?\b/, '1.1s' ],
     [ qr/\b(in|since) \d+\.\d+/, 'in 1.1' ],
+    [ qr/^\[ *\d+\.\d+\] /, '[ 111.1] ' ],  # dmesg output
     # File/download sizes
     [ qr/\d+(?:\.\d+)?(?:\/\d)? ?(?P<suffix>[kmg](?:i?b)?)\b/i, q["1 " . $+{suffix}] ],
     # TCP / HTTP
@@ -22,15 +23,21 @@ my @PATTERNS = (
     [ qr{\bW/(?<quote>\\?")[^"]*\k<quote>}, 'W/"ETag"' ],        # ETag header
     # Common files
     [ qr{/tmp/[^\s/:"']{6,}(?:/[^\s/:"']+)*/?}, '/tmp/d1ff1065' ],
+    # journald "process[pid]:"
+    [ qr/(?<= )(?<process>[-\w]+)\[\d{3,}\]:/, q[$+{process} . "[11111]:"] ],
+    [ qr/(?<= )\((?<process>[-\w ]+)\)\[\d{3,}\]:/, q[$+{process} . "[11111]:"] ],
     # Common tools
     [ qr/(?<step_no>(?:\s|\A)#\d+) \d+\.\d+/, q[$+{step_no} . " 1"] ],  # Docker build steps
     # strace process PIDs
     [ qr/(?<prefix>(?:\b|_?)pid[ =])\d{4,}\b/, q[$+{prefix} . "11111"] ],
     [ qr/(?<prefix>strace: Process )\d+/, q[$+{prefix} . "111111"] ],
 
-    [ qr/(?:[\da-fA-F]{4,}-){4,}[\da-fA-F]{4,}/, 'd1ff1065-d1ff-1065-1007-d1ff1065' ],
+    [ qr/(?:[\da-fA-F]{4,}-){4,}[\da-fA-F]{4,}/, 'd1ff1065-d1ff-1065-1007-d1ff1065' ],  # UUID
     [ qr/[a-zA-Z0-9]{18,}/, 'AAAAAAAAAAAAAAAAAA' ],  # Long payload
+    [ qr/\d{3,}\.\d{1,16}/, '111.1' ],               # Floating numbers
     [ qr/[a-fA-F0-9]{7,}/, 'd1ff1065' ],             # Hash digest
+    # Function pointer args, followed by bufsize, such as in strace
+    [ qr/\b0x[a-f\d]+(, 0x[a-f\d]{4,})*(, \d{2,})?/, '0xd1ff1065' ],
     # Progress bar, e.g. in pip, tqdm
     [ qr{(?<indent>[ \t]*)(?: *(?:\[ *)?\d+%(?:])? *)?[[|]?[\x{2500}-\x{259F}=.\-]{5,} *[\]|]?(?: *(?:\[ *)?\d+%(?:])? *)?[(]?[\d.KMGB ]+/.*}, q[$+{indent} . "......."] ],
 );

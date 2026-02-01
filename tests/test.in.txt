@@ -58,6 +58,13 @@ dddddddd-dddd-dddd-dddd-dddddddd
 # Payload
 OS8xMSB3YXMgYW4gaW5zaWRlIGpvYgo
 
+# Numbers
+555.3
+0xfade
+
+# Function pointer args
+0xfade, 77
+
 # Hash digest
 af09af09
 AF09AF09

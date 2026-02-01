@@ -58,6 +58,13 @@ d1ff1065-d1ff-1065-1007-d1ff1065
 # Payload
 d1ff1065
 
+# Numbers
+111.1
+0xd1ff1065
+
+# Function pointer args
+0xd1ff1065
+
 # Hash digest
 d1ff1065
 d1ff1065
